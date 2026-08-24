@@ -35,12 +35,14 @@ void abort(void);
 long strtol(const char *str, char **strEnd, int base);
 long long strtoll(const char *str, char **strEnd, int base);
 
+#if 0
 void *sbrk(ptrdiff_t incr);
 
 void *malloc(size_t size);
 void *calloc(size_t num, size_t size);
 void *realloc(void *ptr, size_t size);
 void free(void *ptr);
+#endif
 
 #ifdef __cplusplus
 }

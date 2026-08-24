@@ -132,6 +132,10 @@ static const SpriteInfo fontSprites[] = {
 	{ .x = 80, .y = 54, .width =  7, .height = 10 }  // Start
 };
 
+#define FIRST_TABLE_CHAR   '!'
+#define NUM_CHARACTERS     (sizeof(fontSprites) / sizeof(SpriteInfo))
+#define FIRST_INVALID_CHAR (FIRST_TABLE_CHAR + NUM_CHARACTERS)
+
 void printString(
 	RenderContext *ctx,
 	int           x,
@@ -169,12 +173,12 @@ void printString(
 				currentX += FONT_SPACE_WIDTH;
 				continue;
 
-			case 0x89 ... 0xff:
+			case FIRST_INVALID_CHAR ... 0xff:
 				ch = 0x7f;
 				break;
 		}
 
-		const SpriteInfo *sprite = &fontSprites[ch - FONT_FIRST_TABLE_CHAR];
+		const SpriteInfo *sprite = &fontSprites[ch - FIRST_TABLE_CHAR];
 
 		ptr    = allocateGP0Packet(chain, 4);
 		ptr[0] = color | gp0_rectangle(true, ch >> 7, true);
@@ -197,7 +201,7 @@ int getStringWidth(const char *str) {
 	int currentX = 0, maxWidth = 0;
 
 	for (; *str; str++) {
-		char ch = *str;
+		uint8_t ch = (uint8_t) *str;
 
 		switch (ch) {
 			case '\t':
@@ -216,12 +220,12 @@ int getStringWidth(const char *str) {
 				currentX += FONT_SPACE_WIDTH;
 				continue;
 
-			case '\x89' ... '\xff':
-				ch = '\x7f';
+			case FIRST_INVALID_CHAR ... 0xff:
+				ch = 0x7f;
 				break;
 		}
 
-		const SpriteInfo *sprite = &fontSprites[ch - FONT_FIRST_TABLE_CHAR];
+		const SpriteInfo *sprite = &fontSprites[ch - FIRST_TABLE_CHAR];
 		currentX                += sprite->width;
 	}
 

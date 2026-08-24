@@ -41,8 +41,10 @@ char *strstr(const char *str, const char *substr);
 size_t strlen(const char *str);
 char *strcat(char *dest, const char *src);
 char *strncat(char *dest, const char *src, size_t count);
+#if 0
 char *strdup(const char *str);
 char *strndup(const char *str, size_t count);
+#endif
 
 char *strtok(char *str, const char *delim);
 

@@ -278,6 +278,7 @@ char *strncat(char *restrict dest, const char *restrict src, size_t count) {
 	return dest;
 }
 
+#if 0
 char *strdup(const char *str) {
 	size_t length = strlen(str) + 1;
 	char   *copy  = malloc(length);
@@ -299,6 +300,7 @@ char *strndup(const char *str, size_t count) {
 	memcpy(copy, str, length);
 	return copy;
 }
+#endif
 
 /* String tokenizer */
 

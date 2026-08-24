@@ -34,10 +34,7 @@ add_library(
 	common OBJECT
 	src/libc/clz.s
 	#src/libc/crt0.c
-	#src/libc/cxxsupport.cpp
-	#src/libc/malloc.c
 	src/libc/misc.c
-	src/libc/setjmp.s
 	src/libc/string.c
 	src/libc/string.s
 	src/ps1/cache.s
