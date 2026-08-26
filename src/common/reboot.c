@@ -53,7 +53,7 @@ static void prepareForReboot(void) {
 	GPU_GP1 = gp1_acknowledge();
 	GPU_GP1 = gp1_dmaRequestMode(GP1_DREQ_NONE);
 
-	SPU_CTRL  = 0;
+	SPU_ATTR  = 0;
 	SPU_MVOLL = 0;
 	SPU_MVOLR = 0;
 }
@@ -134,21 +134,26 @@ void softFastReboot(void) {
 	performFastReboot();
 }
 
-void softFastRebootWithConfig(uint16_t ramConfig, uint8_t vramSize) {
+void softFastRebootWithConfig(
+	uint16_t ramConfig,
+	uint16_t vramSize,
+	uint16_t spuRAMConfig
+) {
 	if (!isFastRebootCompatible())
 		return;
 
 	prepareForReboot();
 	__builtin_memcpy(RAM_BREAK_VECTOR,    &_fastRebootBreakVector,     16);
-	__builtin_memcpy(RAM_SHELL_LOAD_ADDR, &_fastRebootWithConfigShell, 32);
+	__builtin_memcpy(RAM_SHELL_LOAD_ADDR, &_fastRebootWithConfigShell, 48);
 
 	// Patch the provided main RAM and VRAM configuration values into the third
 	// and fourth instructions respectively of the relocated copy of
 	// _fastRebootWithConfigShell(). Both instructions hold an immediate value
 	// in the bottommost 16 bits.
 	uint32_t *ptr = (uint32_t *) RAM_SHELL_LOAD_ADDR;
-	ptr[2]        = (ptr[2] & 0xffff0000) | (ramConfig & 0xffff);
-	ptr[3]        = (ptr[3] & 0xffff0000) | (vramSize  & 0x00ff);
+	ptr[2]        = (ptr[2] & 0xffff0000) | ramConfig;
+	ptr[3]        = (ptr[3] & 0xffff0000) | vramSize;
+	ptr[4]        = (ptr[4] & 0xffff0000) | spuRAMConfig;
 
 	flushCache();
 	performFastReboot();

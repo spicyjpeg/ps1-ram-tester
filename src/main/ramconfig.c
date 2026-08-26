@@ -233,7 +233,7 @@ static const MenuItem ramConfigMenu[] = {
 	}
 };
 
-void enterRAMConfigMenu(
+void enterMainRAMConfigMenu(
 	RenderContext  *ctx,
 	UIState        *state,
 	const MenuItem *item

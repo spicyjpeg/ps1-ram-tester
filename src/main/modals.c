@@ -43,7 +43,7 @@ static void doFastReboot(
 	(void) item;
 
 	showRebootProgress(ctx, "Waiting for kernel to load CD-ROM...");
-	softFastRebootWithConfig(DRAM_CTRL & 0xffff, vramSize);
+	softFastRebootWithConfig(DRAM_CTRL & 0xffff, vramSize, SPU_RAM_CTRL);
 	__builtin_unreachable();
 }
 
@@ -65,19 +65,33 @@ static const MenuItem rebootWarningMenu[] = {
 	}, {
 		.type = ITEM_SEPARATOR
 	}, {
-		.name = "CD-ROM booting relies on injecting kernel patches to apply",
+		.name = "CD-ROM booting relies on injecting temporary kernel",
 		.type = ITEM_STATIC
 	}, {
-		.name = "the new RAM configuration. This process is by its nature",
+		.name = "patches to apply the new main RAM, VRAM and SPU RAM",
 		.type = ITEM_STATIC
 	}, {
-		.name = "hacky and may introduce compatibility issues. Moreover,",
+		.name = "configuration. This process is by its nature hacky and",
 		.type = ITEM_STATIC
 	}, {
-		.name = "some games and applications are known to break when the",
+		.name = "prone to compatibility issues. Moreover:",
 		.type = ITEM_STATIC
 	}, {
-		.name = "default main RAM configuration is changed.",
+		.type = ITEM_SEPARATOR
+	}, {
+		.name = " * some games and applications are known to break when",
+		.type = ITEM_STATIC
+	}, {
+		.name = "   not using the stock main RAM setup (2 MB incorrectly",
+		.type = ITEM_STATIC
+	}, {
+		.name = "   configured as 8 MB);",
+		.type = ITEM_STATIC
+	}, {
+		.name = " * almost all games forcibly restore the stock SPU RAM",
+		.type = ITEM_STATIC
+	}, {
+		.name = "   configuration.",
 		.type = ITEM_STATIC
 	}, {
 		.type = ITEM_SEPARATOR

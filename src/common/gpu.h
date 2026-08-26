@@ -19,7 +19,7 @@
 #include <stdint.h>
 #include "ps1/gpucmd.h"
 
-#define GPU_CHAIN_BUFFER_SIZE 2048
+#define GPU_CHAIN_BUFFER_SIZE 2560
 
 typedef struct {
 	uint32_t data[GPU_CHAIN_BUFFER_SIZE];

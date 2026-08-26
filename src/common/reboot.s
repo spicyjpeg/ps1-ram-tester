@@ -15,16 +15,18 @@
 .set noreorder
 .set noat
 
-.set DRAM_CTRL, 0xbf801060
-.set GPU_GP1,   0xbf801814
+.set DRAM_CTRL,    0xbf801060
+.set GPU_GP1,      0xbf801814
+.set SPU_RAM_CTRL, 0xbf801dac
 
 .set GP1_CMD_VRAM_SIZE, 9 << 24
 
 .set COP0_DCIC, $7
 
-.set ptr,       $a0
-.set ramConfig, $a1
-.set vramSize,  $a2
+.set ptr,          $a0
+.set ramConfig,    $a1
+.set vramSize,     $a2
+.set spuRAMConfig, $a3
 
 .section .text._fastRebootBreakVector, "ax", @progbits
 .global _fastRebootBreakVector
@@ -41,6 +43,7 @@ _fastRebootBreakVector:
 	# return before anything else is copied.
 	mtc0  $0, COP0_DCIC
 	sw    $0, -1($a0)
+
 	jr    $ra
 	rfe
 
@@ -67,15 +70,20 @@ _fastRebootDummyShell:
 _fastRebootWithConfigShell:
 	# This is a slightly more complex dummy shell that applies a custom main RAM
 	# and VRAM configuration before returning. The first instruction will still
-	# be overwritten by _fastRebootBreakVector(), while the third and fourth
-	# instructions will be patched by softFastRebootWithConfig() with the
-	# appropriate configuration values.
+	# be overwritten by _fastRebootBreakVector(), while the 0x1234 immediates
+	# will be patched by softFastRebootWithConfig() with the appropriate
+	# configuration values.
 	nop
 	lui   vramSize, GP1_CMD_VRAM_SIZE >> 16
-	ori   ramConfig, $0, 0x1234
-	ori   vramSize, 0x1234
+	ori   ramConfig,    $0, 0x1234
+	ori   vramSize,         0x1234
+	ori   spuRAMConfig, $0, 0x1234
 
-	lui   ptr, %hi(DRAM_CTRL)
-	sw    ramConfig, %lo(DRAM_CTRL)(ptr)
+	lui   ptr,          %hi(DRAM_CTRL)
+	sw    ramConfig,    %lo(DRAM_CTRL)   (ptr)
+	sw    vramSize,     %lo(GPU_GP1)     (ptr)
+	sh    spuRAMConfig, %lo(SPU_RAM_CTRL)(ptr)
+
 	jr    $ra
-	sw    vramSize, %lo(GPU_GP1)(ptr)
+	nop
+	nop

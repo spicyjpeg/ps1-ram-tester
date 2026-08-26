@@ -19,7 +19,7 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_LIST_DIR}/cmake/toolchain.cmake")
 project(
 	ps1-ram-tester
 	LANGUAGES    C ASM
-	VERSION      1.0.0
+	VERSION      1.1.0
 	DESCRIPTION  "PlayStation 1 RAM, VRAM and SPU RAM testing tool"
 	HOMEPAGE_URL "https://github.com/spicyjpeg/ps1-ram-tester"
 )
@@ -64,6 +64,7 @@ addPS1Executable(
 	src/main/modals.c
 	src/main/ramconfig.c
 	src/main/renderer.c
+	src/main/spuconfig.c
 	src/main/test.c
 	src/main/ui.c
 )

@@ -23,6 +23,7 @@
 #include "main/modals.h"
 #include "main/ramconfig.h"
 #include "main/renderer.h"
+#include "main/spuconfig.h"
 #include "main/test.h"
 #include "main/ui.h"
 #include "ps1/gpucmd.h"
@@ -34,10 +35,11 @@ uint8_t vramSize   =  0;
 uint8_t testPasses = 10;
 
 static char mainRAMConfig[32] = "";
-static char finalResult[32]   = "";
+static char spuRAMConfig [32] = "";
+static char finalResult  [32] = "";
 static char mainRAMResult[32] = "";
-static char vramResult[32]    = "";
-static char spuRAMResult[32]  = "";
+static char vramResult   [32] = "";
+static char spuRAMResult [32] = "";
 
 static const char *testMessage = 0;
 
@@ -135,6 +137,7 @@ static void runSPURAMTest(
 ) {
 	testMessage = "Running SPU RAM test... (pass %d)";
 
+	size_t    size = getSPURAMSize();
 	TestError error;
 
 	if (testSPURAM(
@@ -142,23 +145,28 @@ static void runSPURAMTest(
 		testCallback,
 		ctx,
 		SPU_RAM_ALLOC_OFFSET,
-		SPU_RAM_SIZE,
+		size,
 		testPasses
-	))
+	)) {
+		int  shift = (size >= 0x100000) ? 20  : 10;
+		char unit  = (size >= 0x100000) ? 'M' : 'K';
+
 		snprintf(
 			spuRAMResult,
 			sizeof(spuRAMResult),
-			"Passed (%d KB)",
-			SPU_RAM_SIZE / 1024
+			"Passed (%d %cB)",
+			size >> shift,
+			unit
 		);
-	else
+	} else {
 		snprintf(
 			spuRAMResult,
 			sizeof(spuRAMResult),
-			"Error at 0x%05X (pass %d)",
+			"Error at 0x%06X (pass %d)",
 			error.address,
 			error.pass + 1
 		);
+	}
 
 	enterMainMenu(ctx, state, item);
 }
@@ -181,7 +189,7 @@ static const MenuItem mainMenu[] = {
 		.type   = ITEM_ACTION,
 		.action = {
 			.tag      = mainRAMConfig,
-			.callback = enterRAMConfigMenu
+			.callback = enterMainRAMConfigMenu
 		}
 	}, {
 		.name     = "VRAM size",
@@ -194,6 +202,13 @@ static const MenuItem mainMenu[] = {
 				"1 MB (retail/dev)",
 				"2 MB (arcade)"
 			}
+		}
+	}, {
+		.name   = "Configure SPU RAM...",
+		.type   = ITEM_ACTION,
+		.action = {
+			.tag      = spuRAMConfig,
+			.callback = enterSPURAMConfigMenu
 		}
 	}, {
 		.type = ITEM_SEPARATOR
@@ -234,14 +249,12 @@ static const MenuItem mainMenu[] = {
 			.callback = runSPURAMTest
 		}
 	}, {
-		.type = ITEM_SEPARATOR
-	}, {
 		.name = "Warning: the screen will flicker while testing VRAM.",
 		.type = ITEM_STATIC
 	}, {
 		.type = ITEM_SEPARATOR
 	}, {
-		.name   = "Boot CD-ROM with current configuration",
+		.name   = "Boot CD-ROM with current configuration...",
 		.type   = ITEM_ACTION,
 		.action = { .callback = enterFastRebootMenu }
 	}, {
@@ -263,12 +276,24 @@ void enterMainMenu(RenderContext *ctx, UIState *state, const MenuItem *item) {
 	(void) ctx;
 	(void) item;
 
+	size_t size  = getSPURAMSize();
+	int    shift = (size >= 0x100000) ? 20  : 10;
+	char   unit  = (size >= 0x100000) ? 'M' : 'K';
+
 	snprintf(
 		mainRAMConfig,
 		sizeof(mainRAMConfig),
 		"%d MB [0x%04X]",
 		getMainRAMSize() / 0x100000,
 		DRAM_CTRL & 0xffff
+	);
+	snprintf(
+		spuRAMConfig,
+		sizeof(spuRAMConfig),
+		"%d %cB [0x%04X]",
+		size >> shift,
+		unit,
+		SPU_RAM_CTRL
 	);
 
 	// Somewhat ugly hack, but it works.

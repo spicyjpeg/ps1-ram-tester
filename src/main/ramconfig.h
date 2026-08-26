@@ -25,7 +25,7 @@ extern "C" {
 size_t getMainRAMSize(void);
 void fixRetailRAMConfig(void);
 
-void enterRAMConfigMenu(
+void enterMainRAMConfigMenu(
 	RenderContext  *ctx,
 	UIState        *state,
 	const MenuItem *item

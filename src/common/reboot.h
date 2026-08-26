@@ -25,7 +25,11 @@ void softReset(void);
 
 bool isFastRebootCompatible(void);
 void softFastReboot(void);
-void softFastRebootWithConfig(uint16_t ramConfig, uint8_t vramSize);
+void softFastRebootWithConfig(
+	uint16_t ramConfig,
+	uint16_t vramSize,
+	uint16_t spuRAMConfig
+);
 
 #ifdef __cplusplus
 }

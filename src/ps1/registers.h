@@ -428,38 +428,48 @@ typedef enum {
 /* SPU */
 
 typedef enum {
-	SPU_STAT_I2SA_ENABLE    = 1 <<  0,
-	SPU_STAT_I2SB_ENABLE    = 1 <<  1,
-	SPU_STAT_I2SA_REVERB    = 1 <<  2,
-	SPU_STAT_I2SB_REVERB    = 1 <<  3,
-	SPU_STAT_XFER_BITMASK   = 3 <<  4,
-	SPU_STAT_XFER_NONE      = 0 <<  4,
-	SPU_STAT_XFER_WRITE     = 1 <<  4,
-	SPU_STAT_XFER_DMA_WRITE = 2 <<  4,
-	SPU_STAT_XFER_DMA_READ  = 3 <<  4,
-	SPU_STAT_IRQ            = 1 <<  6,
-	SPU_STAT_DREQ           = 1 <<  7,
-	SPU_STAT_WRITE_REQ      = 1 <<  8,
-	SPU_STAT_READ_REQ       = 1 <<  9,
-	SPU_STAT_BUSY           = 1 << 10,
-	SPU_STAT_CAPTURE_BUF    = 1 << 11
+	SPU_STATX_I2SA_ENABLE    = 1 <<  0,
+	SPU_STATX_I2SB_ENABLE    = 1 <<  1,
+	SPU_STATX_I2SA_REVERB    = 1 <<  2,
+	SPU_STATX_I2SB_REVERB    = 1 <<  3,
+	SPU_STATX_XFER_BITMASK   = 3 <<  4,
+	SPU_STATX_XFER_NONE      = 0 <<  4,
+	SPU_STATX_XFER_WRITE     = 1 <<  4,
+	SPU_STATX_XFER_DMA_WRITE = 2 <<  4,
+	SPU_STATX_XFER_DMA_READ  = 3 <<  4,
+	SPU_STATX_IRQ            = 1 <<  6,
+	SPU_STATX_DREQ           = 1 <<  7,
+	SPU_STATX_WRITE_REQ      = 1 <<  8,
+	SPU_STATX_READ_REQ       = 1 <<  9,
+	SPU_STATX_BUSY           = 1 << 10,
+	SPU_STATX_CAPTURE_BUF    = 1 << 11
 } SPUStatusFlag;
 
 typedef enum {
-	SPU_CTRL_I2SA_ENABLE    = 1 <<  0,
-	SPU_CTRL_I2SB_ENABLE    = 1 <<  1,
-	SPU_CTRL_I2SA_REVERB    = 1 <<  2,
-	SPU_CTRL_I2SB_REVERB    = 1 <<  3,
-	SPU_CTRL_XFER_BITMASK   = 3 <<  4,
-	SPU_CTRL_XFER_NONE      = 0 <<  4,
-	SPU_CTRL_XFER_WRITE     = 1 <<  4,
-	SPU_CTRL_XFER_DMA_WRITE = 2 <<  4,
-	SPU_CTRL_XFER_DMA_READ  = 3 <<  4,
-	SPU_CTRL_IRQ_ENABLE     = 1 <<  6,
-	SPU_CTRL_REVERB_ENABLE  = 1 <<  7,
-	SPU_CTRL_DAC_ENABLE     = 1 << 14,
-	SPU_CTRL_ENABLE         = 1 << 15
-} SPUControlFlag;
+	SPU_ATTR_I2SA_ENABLE    = 1 <<  0,
+	SPU_ATTR_I2SB_ENABLE    = 1 <<  1,
+	SPU_ATTR_I2SA_REVERB    = 1 <<  2,
+	SPU_ATTR_I2SB_REVERB    = 1 <<  3,
+	SPU_ATTR_XFER_BITMASK   = 3 <<  4,
+	SPU_ATTR_XFER_NONE      = 0 <<  4,
+	SPU_ATTR_XFER_WRITE     = 1 <<  4,
+	SPU_ATTR_XFER_DMA_WRITE = 2 <<  4,
+	SPU_ATTR_XFER_DMA_READ  = 3 <<  4,
+	SPU_ATTR_IRQ_ENABLE     = 1 <<  6,
+	SPU_ATTR_REVERB_ENABLE  = 1 <<  7,
+	SPU_ATTR_DAC_ENABLE     = 1 << 14,
+	SPU_ATTR_ENABLE         = 1 << 15
+} SPUAttributeFlag;
+
+typedef enum {
+	SPU_RAM_CTRL_UNKNOWN       = 1 << 0,
+	SPU_RAM_CTRL_BANKS_BITMASK = 1 << 1,
+	SPU_RAM_CTRL_BANKS_1       = 0 << 1,
+	SPU_RAM_CTRL_BANKS_2       = 1 << 1,
+	SPU_RAM_CTRL_SIZE_BITMASK  = 3 << 2,
+	SPU_RAM_CTRL_SIZE_512KB    = 1 << 2,
+	SPU_RAM_CTRL_SIZE_2MB      = 2 << 2
+} SPURAMControlFlag;
 
 #define SPU_CH_VOLL(N)  _MMIO16((IO_BASE | 0xc00) + (16 * (N)))
 #define SPU_CH_VOLR(N)  _MMIO16((IO_BASE | 0xc02) + (16 * (N)))
@@ -476,8 +486,8 @@ typedef enum {
 #define SPU_EVOLR _MMIO16(IO_BASE | 0xd86)
 #define SPU_KON0  _MMIO16(IO_BASE | 0xd88)
 #define SPU_KON1  _MMIO16(IO_BASE | 0xd8a)
-#define SPU_KOFF0 _MMIO16(IO_BASE | 0xd8c)
-#define SPU_KOFF1 _MMIO16(IO_BASE | 0xd8e)
+#define SPU_KOF0  _MMIO16(IO_BASE | 0xd8c)
+#define SPU_KOF1  _MMIO16(IO_BASE | 0xd8e)
 #define SPU_PMON0 _MMIO16(IO_BASE | 0xd90)
 #define SPU_PMON1 _MMIO16(IO_BASE | 0xd92)
 #define SPU_NON0  _MMIO16(IO_BASE | 0xd94)
@@ -491,9 +501,9 @@ typedef enum {
 #define SPU_IRQA     _MMIO16(IO_BASE | 0xda4)
 #define SPU_TSA      _MMIO16(IO_BASE | 0xda6)
 #define SPU_DATA     _MMIO16(IO_BASE | 0xda8)
-#define SPU_CTRL     _MMIO16(IO_BASE | 0xdaa)
+#define SPU_ATTR     _MMIO16(IO_BASE | 0xdaa)
 #define SPU_RAM_CTRL _MMIO16(IO_BASE | 0xdac)
-#define SPU_STAT     _MMIO16(IO_BASE | 0xdae)
+#define SPU_STATX    _MMIO16(IO_BASE | 0xdae)
 
 #define SPU_AVOLL  _MMIO16(IO_BASE | 0xdb0)
 #define SPU_AVOLR  _MMIO16(IO_BASE | 0xdb2)
