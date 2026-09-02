@@ -4,26 +4,25 @@
 This is a simple but feature-complete memory testing tool for the original Sony
 PlayStation, allowing for exhaustive testing of all of the console's RAM chips:
 
-- main RAM testing is fully supported, with proper handling of all
-  configurations permitted by the CPU's DRAM controller (single or dual bank,
-  1/2/4/8 MB per bank). In order to ease testing of PS1-based arcade boards and
-  "upgraded" consoles with non-standard main RAM geometry, a menu is provided to
-  edit all DRAM controller options, including ones whose purpose is currently
-  unknown;
-- VRAM testing is also fully supported. Console models equipped with the 208-pin
-  GPU (all of them except for development units and a limited number of early
-  SCPH-1xxx models) support extending VRAM to 2 MB by addressing a second bank,
-  which may be enabled and tested if present;
-- SPU RAM testing is currently limited to the standard 512 KB configuration. The
-  SPU can allegedly be configured to address more than 512 KB (the ZN-1/ZN-2
-  arcade PCBs have a jumper setting for 2 MB SPU RAM, and there is a register
-  that *looks like* it may be related to RAM addressing), but this needs to be
-  researched more in depth before the tester can support it.
+- main RAM testing is fully supported up to 16 MB on all PS1 revisions, with
+  proper handling of all configurations permitted by the CPU's DRAM controller
+  (single or dual bank, 1/2/4/8 MB per bank). In order to ease testing of
+  PS1-based arcade boards and "upgraded" consoles with non-standard main RAM
+  geometry, a menu is provided to edit all DRAM controller options, including
+  ones whose purpose is currently unknown;
+- VRAM testing is supported up to 1 or 2 MB depending on GPU revision. Console
+  models equipped with the 208-pin GPU (all of them except for development kits,
+  the SCPH-1000 and a limited number of other SCPH-1xxx models) support
+  addressing up to two 1 MB banks;
+- SPU RAM testing is supported up to 512 KB or 4 MB depending on SPU revision.
+  Console models equipped with the standalone 100-pin SPU (all ones prior to
+  SCPH-7xxx) may address up to two banks of 2 MB each. As with main RAM, all
+  configuration flags can be edited including unknown ones.
 
 This tester can also be used to launch a game or application from the CD-ROM
-with customized default main RAM and VRAM configuration. This is useful for
-instance to run ROM hacks or homebrew software that require additional memory
-but do not explicitly initialize the DRAM controller.
+with customized default main RAM, VRAM and SPU RAM configuration. This is useful
+for instance to run ROM hacks or homebrew software that require additional
+memory but do not explicitly initialize the DRAM controller.
 
 Finally, this tester serves as a practical example of a simple C application
 built on top of the
@@ -42,6 +41,7 @@ the PAL PSone, for which one of the following workarounds is required:
 
 - installing a modchip with BIOS "region patching" functionality;
 - patching the disc image with PAL license data prior to burning;
+- editing the license region string in `cdrom.json` and recompiling the tester;
 - launching via an intermediate loader that skips the license data checks in the
   BIOS shell such as Unirom or tonyhax;
 - launching through disc swapping (not recommended).

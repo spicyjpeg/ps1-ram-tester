@@ -17,6 +17,7 @@ PAL PSone, for which one of the following workarounds is required:
 
 - installing a modchip with BIOS "region patching" functionality;
 - patching the disc image with PAL license data prior to burning;
+- editing the license region string in cdrom.json and recompiling the tester;
 - launching via an intermediate loader that skips the license data checks in the
   BIOS shell;
 - launching through disc swapping (not recommended).

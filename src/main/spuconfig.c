@@ -160,7 +160,7 @@ static const MenuItem spuRAMConfigMenu[] = {
 		.type   = ITEM_ACTION,
 		.action = { .callback = enterMainMenu }
 	}, {
-		.name   = "Reset settings to initial values",
+		.name   = "Reset settings to stock configuration",
 		.type   = ITEM_ACTION,
 		.action = { .callback = resetConfig }
 	}, {
