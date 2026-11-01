@@ -169,6 +169,10 @@ void printString(
 				offsetY += FONT_LINE_HEIGHT;
 				continue;
 
+			case '\r':
+				offsetX = 0;
+				continue;
+
 			case ' ':
 				offsetX += FONT_SPACE_WIDTH;
 				continue;
@@ -210,6 +214,7 @@ int getStringWidth(const char *str) {
 				continue;
 
 			case '\n':
+			case '\r':
 				if (offsetX > maxWidth)
 					maxWidth = offsetX;
 

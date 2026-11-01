@@ -21,8 +21,8 @@
 # RAM to be safely tested. Note that this implementation will not invoke global
 # constructors and destructors.
 .section .text._start, "ax", @progbits
-.global _start
-.type _start, @function
+.global  _start
+.type    _start, @function
 
 _start:
 	la    $gp, _gp
@@ -38,7 +38,7 @@ _start:
 	nop
 
 .section .sbss._stackBuffer, "aw"
-.type _stackBuffer, @object
+.type    _stackBuffer, @object
 
 _stackBuffer:
 	.space STACK_SIZE

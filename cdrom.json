@@ -7,7 +7,7 @@
 		"volume":       "${CD_VOLUME_NAME}",
 		"volumeSet":    "${CD_VOLUME_NAME}",
 		"publisher":    "SPICYJPEG",
-		"dataPreparer": "GCC ${CMAKE_CXX_COMPILER_VERSION}, CMAKE ${CMAKE_VERSION}, PYTHON ${Python3_VERSION}",
+		"dataPreparer": "GCC ${CMAKE_C_COMPILER_VERSION}, CMAKE ${CMAKE_VERSION}, PYTHON ${Python3_VERSION}",
 		"application":  "PLAYSTATION",
 		"copyright":    "README.TXT;1"
 	},

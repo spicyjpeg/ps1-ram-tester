@@ -39,12 +39,12 @@ static void prepareForReboot(void) {
 	// Abort all ongoing DMA transfers, clear all pending IRQ flags and prevent
 	// the interrupt controller from generating further IRQs.
 	for (int i = DMA_MDEC_IN; i <= DMA_OTC; i++)
-		DMA_CHCR(i) = 0;
+		DMAC_CHCR(i) = 0;
 
-	IRQ_MASK = 0;
-	IRQ_STAT = 0;
-	DMA_DPCR = 0;
-	DMA_DICR = DMA_DICR_CH_STAT_BITMASK;
+	INTC_MASK = 0;
+	INTC_REG  = 0;
+	DMAC_PCR  = 0;
+	DMAC_ICR  = DMAC_ICR_CH_STAT_BITMASK;
 
 	// Clear any leftover GPU and SPU state. Since we are not performing a full
 	// GPU reset the last frame rendered will remain on screen, which is useful

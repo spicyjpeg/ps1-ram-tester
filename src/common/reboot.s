@@ -29,8 +29,8 @@
 .set spuRAMConfig, $a3
 
 .section .text._fastRebootBreakVector, "ax", @progbits
-.global _fastRebootBreakVector
-.type _fastRebootBreakVector, @function
+.global  _fastRebootBreakVector
+.type    _fastRebootBreakVector, @function
 
 _fastRebootBreakVector:
 	# When performing a fast reboot (i.e. forcing the BIOS to skip running the
@@ -48,8 +48,8 @@ _fastRebootBreakVector:
 	rfe
 
 .section .text._fastRebootDummyShell, "ax", @progbits
-.global _fastRebootDummyShell
-.type _fastRebootDummyShell, @function
+.global  _fastRebootDummyShell
+.type    _fastRebootDummyShell, @function
 
 _fastRebootDummyShell:
 	# Since the COP0 breakpoint will not prevent the BIOS from attempting to run
@@ -64,8 +64,8 @@ _fastRebootDummyShell:
 	nop
 
 .section .text._fastRebootWithConfigShell, "ax", @progbits
-.global _fastRebootWithConfigShell
-.type _fastRebootWithConfigShell, @function
+.global  _fastRebootWithConfigShell
+.type    _fastRebootWithConfigShell, @function
 
 _fastRebootWithConfigShell:
 	# This is a slightly more complex dummy shell that applies a custom main RAM
