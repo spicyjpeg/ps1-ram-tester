@@ -12,7 +12,7 @@
 # OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 4.0)
 
 ## External tools
 
@@ -48,6 +48,10 @@ set(
 ## Compile-time options
 
 set(
-	ENABLE_LOGGING OFF
+	ENABLE_KERNEL_LOGGING OFF
+	CACHE BOOL "Enable debug logging to BIOS kernel TTY"
+)
+set(
+	ENABLE_SIO1_LOGGING OFF
 	CACHE BOOL "Enable debug logging to serial port (SIO1)"
 )

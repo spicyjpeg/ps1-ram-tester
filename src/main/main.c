@@ -34,9 +34,13 @@ int main(int argc, const char **argv) {
 	(void) argc;
 	(void) argv;
 
-#ifdef ENABLE_LOGGING
-	initSerialIO(115200);
+#ifdef ENABLE_KERNEL_LOGGING
+	initKernelTTY();
 #endif
+#ifdef ENABLE_SIO1_LOGGING
+	initSIO1TTY(115200);
+#endif
+
 	LOG("ps1-ram-tester " VERSION_STRING " (" __DATE__ " " __TIME__ ")");
 	LOG("(C) 2026 spicyjpeg");
 

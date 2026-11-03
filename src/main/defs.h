@@ -28,7 +28,7 @@
 #define VERSION_STRING VERSION "-debug"
 #endif
 
-#ifdef ENABLE_LOGGING
+#if defined(ENABLE_KERNEL_LOGGING) || defined(ENABLE_SIO1_LOGGING)
 #define LOG(fmt, ...) \
 	printf("%s(%d): " fmt "\n", __func__, __LINE__ __VA_OPT__(,) __VA_ARGS__)
 #else

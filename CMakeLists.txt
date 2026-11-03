@@ -12,7 +12,7 @@
 # OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 4.0)
 
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_LIST_DIR}/cmake/toolchain.cmake")
 
@@ -34,9 +34,11 @@ add_library(
 	c OBJECT
 	src/libc/clz.s
 	#src/libc/crt0.c
-	src/libc/misc.c
+	src/libc/stdio.c
 	src/libc/string.c
 	src/libc/string.s
+	src/ps1/kernel.s
+	src/vendor/arith64.c
 	src/vendor/printf.c
 )
 target_include_directories(
@@ -75,7 +77,8 @@ target_compile_options(
 )
 target_compile_definitions(
 	"${RELEASE_NAME}" PRIVATE
-	$<$<BOOL:${ENABLE_LOGGING}>:ENABLE_LOGGING=1>
+	$<$<BOOL:${ENABLE_KERNEL_LOGGING}>:ENABLE_KERNEL_LOGGING=1>
+	$<$<BOOL:${ENABLE_SIO1_LOGGING}>:ENABLE_SIO1_LOGGING=1>
 	VERSION="${PROJECT_VERSION}"
 )
 

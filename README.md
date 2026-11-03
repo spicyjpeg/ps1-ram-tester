@@ -80,6 +80,7 @@ purposes.
 - The
   ["Memory Control" section of psx-spx](https://psx-spx.consoledev.net/memorycontrol)
   has further information on main RAM configuration.
-- If you need help or wish to discuss PS1 homebrew development more in general,
-  you may want to check out the
-  [PSX.Dev Discord server](https://discord.gg/QByKPpH).
+- I run the [Humanbrew Discord server](https://discord.gg/2rn8qD2gNH), a safe
+  space for AI-free console homebrew development (not just PS1) and discussion.
+  You may also consider joining [PSX.Dev](https://discord.gg/QByKPpH), but I am
+  no longer there for personal reasons.
