@@ -69,11 +69,11 @@ manually by passing `-DCHDMAN_PATH` to CMake while configuring the project.
 
 ## License
 
-As with ps1-bare-metal, everything in this repository is licensed under the MIT
-license (or the functionally equivalent ISC license). The only "hard"
-requirements are attribution and preserving the license notice; you may
-otherwise freely use any of the code for both non-commercial and commercial
-purposes.
+As with ps1-bare-metal, all original code in this repository is released under
+the MIT license while the third-party dependencies bundled under `src/vendor`
+have their own licenses. Refer to
+[ps1-bare-metal's README](https://github.com/spicyjpeg/ps1-bare-metal#license)
+for more information.
 
 ## See also
 
